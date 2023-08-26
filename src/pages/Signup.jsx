@@ -1,9 +1,34 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import CustomChakraLink from "../components/CustomChakraLink";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import { UserContext } from "../contexts/UserContext";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { signInWithGoogle } from "../utility/signInWithGoogle";
+import { signUpWithPassword } from "../utility/signUpWithPassword";
 
 function Signup() {
+
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  
+  // set observer on user state using onAuthStateChanged.
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+
+      if (!user) {
+        Cookies.remove('user');
+      } else {
+        navigate('/homepage');
+      }
+    });
+
+  }, []);
+
 
   return (
     <Container
@@ -18,7 +43,7 @@ function Signup() {
       }}
     >
       <SignupTitle />
-      <SignupForm />
+      <SignupForm setUser={setUser} />
       <SignupLoginHint />
       <SignupOtherOptions />
     </Container>
@@ -37,7 +62,7 @@ function SignupTitle() {
   );
 }
 
-function SignupForm() {
+function SignupForm({ setUser }) {    
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -58,7 +83,12 @@ function SignupForm() {
   const handleSignupFormSubmit = (e) => {
     e.preventDefault();
 
-    alert('signup form submitted');
+    if(password !== confirmPassword) {
+      alert('Password and Confirm Password fields have different values.');
+      return;
+    }
+
+    signUpWithPassword({ email, password, setUser });
   };
 
   return (
@@ -182,7 +212,9 @@ function SignupOtherOptionButtonContainer() {
       gap='1rem'
       marginBlockStart='1rem'
     >
-      <Button>Continue with Google</Button>
+      <Button onClick={signInWithGoogle}>
+        Continue with Google
+      </Button>
       <Button>Continue with Microsoft</Button>
     </Flex>
   );

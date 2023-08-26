@@ -1,10 +1,58 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Box, Button, Checkbox, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import CustomChakraLink from "../components/CustomChakraLink";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { signInWithGoogle } from "../utility/signInWithGoogle";
+import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { UserContext } from "../contexts/UserContext";
+import { signInWithPassword } from "../utility/signInWithPassword";
 
 function Login() {
 
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+
+  // effects.
+
+  // set observer on user state using onAuthStateChanged.
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+
+      if(!user) {
+        Cookies.remove('user');
+      } else {
+        navigate('/homepage');
+      }
+    });
+
+  }, []);
+  
+  // check redirected result after trying to log in.
+  useEffect(() => {
+    async function checkRedirectResult() {
+      try {
+        const result = await getRedirectResult(auth);
+
+        if (result) {
+          console.log(result);
+          setUser(result.user);
+          Cookies.set('user', JSON.stringify(result.user));
+          navigate('/homepage');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    checkRedirectResult();
+
+  }, []);
+
+ 
   return (
     <Container
       as='main'
@@ -18,7 +66,7 @@ function Login() {
       }}
     >
       <LoginTitle />
-      <LoginForm />
+      <LoginForm setUser={setUser} />
       <LoginLoginHint />
       <LoginOtherOptions />
     </Container>
@@ -37,7 +85,7 @@ function LoginTitle() {
   );
 }
 
-function LoginForm() {
+function LoginForm({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +99,7 @@ function LoginForm() {
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
 
-    alert('login form submitted');
+    signInWithPassword({ email, password, setUser });
   };
 
   return (
@@ -169,13 +217,17 @@ function LoginOtherOptionButtonContainer() {
       gap='1rem'
       marginBlockStart='1rem'
     >
-      <Button>Continue with Google</Button>
+      <Button
+        onClick={signInWithGoogle}
+      >
+        Continue with Google
+      </Button>
       <Button>Continue with Microsoft</Button>
     </Flex>
   );
 }
 
-function RememberMe({ rememberMe, setRememberMe }) {  
+function RememberMe({ rememberMe, setRememberMe }) {
   return (
     <Checkbox
       alignItems='center'
