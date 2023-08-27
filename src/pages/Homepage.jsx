@@ -1,25 +1,20 @@
-import { Box, Button, Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, HStack, Input, InputGroup, InputLeftElement, InputRightElement, Spacer, Text, VStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Grid, GridItem, HStack, Heading, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Spacer, Text, VStack, useDisclosure } from "@chakra-ui/react";
 import googleSignOutUser from "../utility/googleSignOutUser";
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import Cookies from "js-cookie";
-import { ArrowRightIcon, ChatIcon, CloseIcon, DeleteIcon, EditIcon, HamburgerIcon, SearchIcon, StarIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon, ChatIcon, CloseIcon, DeleteIcon, EditIcon, HamburgerIcon, InfoOutlineIcon, SearchIcon, StarIcon } from "@chakra-ui/icons";
 
 function Homepage() {
-
-  const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
 
   // chakra-ui states for drawer.
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSignOut = () => {
-    googleSignOutUser(setUser);
-    navigate('/login');
-  };
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
 
   // effects.
@@ -43,9 +38,6 @@ function Homepage() {
         w='100vw'
         minW='100vw'
         minH='100dvh'
-        backgroundColor='lightgray'
-        display='flex'
-        flexDirection='column'
       >
         <DrawerOpenButton onOpen={onOpen} />
 
@@ -53,11 +45,11 @@ function Homepage() {
         <ChatInput />
 
 
+        <DrawerContainer
+          isOpen={isOpen}
+          onClose={onClose}
+        />
       </Container>
-      <DrawerContainer
-        isOpen={isOpen}
-        onClose={onClose}
-      />
     </>
   );
 }
@@ -180,19 +172,29 @@ function BasicUserInfo() {
 }
 
 function MoreOptions() {
+
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  
+  const handleSignOut = () => {
+    googleSignOutUser(setUser);
+    navigate('/login');
+  };
+
+
   return (
-    <Button
+    <Menu
       flexGrow='1'
       alignSelf='stretch'
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="1em"
-        viewBox="0 0 128 512"
-      >
-        <path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
-      </svg>
-    </Button>
+      <MenuButton as={Button}>
+        <VerticalEllipsisIcon />
+      </MenuButton>
+      <MenuList>
+        <MenuItem>Dark Mode</MenuItem>
+        <MenuItem onClick={handleSignOut}>Log out</MenuItem>
+      </MenuList>
+    </Menu>
   );
 }
 
@@ -238,25 +240,196 @@ function DrawerOpenButton({ onOpen }) {
 
 function ChatInitialContent() {
   return (
-    <div>Chat Initial Content</div>
+    <Flex
+      flexDirection='column'
+      justifyContent='center'
+      alignItems='center'
+      minH='100dvh'
+      w='max(320px - 2rem, 75vw)'
+      m='auto'
+      paddingBlockStart='2rem'
+      paddingBlockEnd='5rem'
+      gap='1rem'
+    >
+      <FinzLogo />
+      <InitialChatHeadingContainer />
+      <InitialChatPromptsContainer />
+    </Flex>
   );
 }
 
 function ChatInput() {
+  
+  const [chatInput, setChatInput] = useState('');
+  
+  const handleChatInputSubmit = (e) => {
+    e.preventDefault();
+
+    alert(chatInput);
+    setChatInput('');
+  };
+  
   return (
-    <InputGroup>
-      <InputRightElement pointerEvents='none'>
-        <ArrowRightIcon />
-      </InputRightElement>
-      <Input
-        type='text'
-        variant='filled'
-        placeholder="Message..."
-        w='max(300px, 75vw)'
+    <Box
+      as='form'
+      onSubmit={handleChatInputSubmit}
+      w='calc(100vw - 2rem)'
+      position='fixed'
+      bottom={{ base: '1rem', md: '2rem' }}
+    >
+      <InputGroup
+        w='max(320px - 2rem, 75vw)'
         maxW='600px'
         m='auto'
-      />
-    </InputGroup>
+      >
+        <Input
+          type='text'
+          variant='filled'
+          placeholder="Message..."
+          w='max(320px - 2rem, 75vw)'
+          maxW='600px'
+          m='auto'
+          value={chatInput}
+          onChange={e => setChatInput(e.target.value)}
+        />
+        <InputRightElement
+          pointerEvents='none'
+        >
+          <ArrowRightIcon />
+        </InputRightElement>
+      </InputGroup>
+    </Box>
+  );
+}
+
+function FinzLogo() {
+
+  const finzLogoStyle = {
+    display: 'grid',
+    justifyContent: 'center',
+    placeItems: 'center',
+    padding: '1rem',
+    aspectRatio: '1 / 1',
+    border: '2px solid black',
+    borderRadius: '50%',
+    fontWeight: 'bold'
+  };
+
+  return (
+    <div style={finzLogoStyle}>FINZ</div>
+  );
+}
+
+function InitialChatHeadingContainer() {
+  return (
+    <VStack>
+      <Heading as='h1' fontSize='1.875rem'>Start Somewhere</Heading>
+      <Text
+        as='p'
+        fontSize='0.75rem'
+        textAlign='center'
+      >
+        Don't know where to start from? Here are some preset prompts to help.
+      </Text>
+    </VStack>
+  );
+}
+
+function InitialChatPromptsContainer() {
+  return (
+    <Grid
+      templateColumns='repeat(3, 1fr)'
+      gap='1rem'
+      fontSize='0.75rem'
+    >
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+
+      <GridItem>
+        <PromptCard
+          iconElement={<InfoOutlineIcon />}
+          textContent={"Lorem ipsum dolor sit amet consectetur."}
+        />
+      </GridItem>
+    </Grid>
+  );
+}
+
+function PromptCard({ iconElement, textContent }) {
+  return (
+    <VStack
+      gap='1rem'
+      border='1px solid black'
+      p='0.5rem'
+    >
+      {iconElement}
+      <Text>{textContent}</Text>
+    </VStack>
+  );
+}
+
+function VerticalEllipsisIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="1em"
+      viewBox="0 0 128 512"
+    >
+      <path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
+    </svg>
   );
 }
 

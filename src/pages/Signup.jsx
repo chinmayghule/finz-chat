@@ -1,5 +1,5 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text, useBreakpointValue } from "@chakra-ui/react";
 import CustomChakraLink from "../components/CustomChakraLink";
 import { useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -9,12 +9,13 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../utility/signInWithGoogle";
 import { signUpWithPassword } from "../utility/signUpWithPassword";
+import CustomGoogleIcon from "../components/CustomGoogleIcon";
 
 function Signup() {
 
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  
+
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -62,7 +63,7 @@ function SignupTitle() {
   );
 }
 
-function SignupForm({ setUser }) {    
+function SignupForm({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -83,7 +84,7 @@ function SignupForm({ setUser }) {
   const handleSignupFormSubmit = (e) => {
     e.preventDefault();
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       alert('Password and Confirm Password fields have different values.');
       return;
     }
@@ -208,6 +209,31 @@ function SignupDivider() {
 }
 
 function SignupOtherOptionButtonContainer() {
+
+  const isMediumBreakpoint =
+    useBreakpointValue({ base: false, md: true });
+
+  if (!isMediumBreakpoint) {
+    return (
+      <Flex
+        flexDirection='row'
+        justifyContent='center'
+        gap='2rem'
+        marginBlockStart='1rem'
+      >
+        <Button
+          onClick={signInWithGoogle}
+          p='2rem'
+        >
+          <CustomGoogleIcon />
+        </Button>
+        <Button p='2rem'>
+          <CustomGoogleIcon />
+        </Button>
+      </Flex>
+    );
+  }
+
   return (
     <Flex
       flexDirection='column'

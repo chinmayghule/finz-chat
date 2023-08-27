@@ -1,5 +1,5 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text, useBreakpointValue } from "@chakra-ui/react";
 import CustomChakraLink from "../components/CustomChakraLink";
 import { useContext, useEffect, useState } from "react";
 import { signInWithGoogle } from "../utility/signInWithGoogle";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../contexts/UserContext";
 import { signInWithPassword } from "../utility/signInWithPassword";
+import CustomGoogleIcon from "../components/CustomGoogleIcon";
 
 function Login() {
 
@@ -22,7 +23,7 @@ function Login() {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
 
-      if(!user) {
+      if (!user) {
         Cookies.remove('user');
       } else {
         navigate('/homepage');
@@ -30,7 +31,7 @@ function Login() {
     });
 
   }, []);
-  
+
   // check redirected result after trying to log in.
   useEffect(() => {
     async function checkRedirectResult() {
@@ -52,7 +53,7 @@ function Login() {
 
   }, []);
 
- 
+
   return (
     <Container
       as='main'
@@ -212,6 +213,31 @@ function LoginDivider() {
 }
 
 function LoginOtherOptionButtonContainer() {
+
+  const isMediumBreakpoint =
+    useBreakpointValue({ base: false, md: true });
+
+  if (!isMediumBreakpoint) {
+    return (
+      <Flex
+        flexDirection='row'
+        justifyContent='center'
+        gap='2rem'
+        marginBlockStart='1rem'
+      >
+        <Button
+          onClick={signInWithGoogle}
+          p='2rem'
+        >
+          <CustomGoogleIcon />
+        </Button>
+        <Button p='2rem'>
+          <CustomGoogleIcon />
+        </Button>
+      </Flex>
+    );
+  }
+
   return (
     <Flex
       flexDirection='column'
@@ -220,10 +246,13 @@ function LoginOtherOptionButtonContainer() {
     >
       <Button
         onClick={signInWithGoogle}
+        leftIcon={<CustomGoogleIcon />}
       >
         Continue with Google
       </Button>
-      <Button>Continue with Microsoft</Button>
+      <Button leftIcon={<CustomGoogleIcon />}>
+        Continue with Microsoft
+      </Button>
     </Flex>
   );
 }
