@@ -111,7 +111,7 @@ function LoginForm({ setUser }) {
       gap='1rem'
       marginBlockStart='2rem'
     >
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Email address</FormLabel>
         <Input
           type='email'
@@ -121,7 +121,7 @@ function LoginForm({ setUser }) {
         />
       </FormControl>
 
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Password</FormLabel>
         <InputGroup>
           <Input
@@ -129,6 +129,7 @@ function LoginForm({ setUser }) {
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            minLength='8'
           />
           <InputRightElement>
             <Button onClick={handleTogglePasswordVisibility}>

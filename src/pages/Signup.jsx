@@ -100,7 +100,7 @@ function SignupForm({ setUser }) {
       gap='1rem'
       marginBlockStart='2rem'
     >
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Email</FormLabel>
         <Input
           type='email'
@@ -110,7 +110,7 @@ function SignupForm({ setUser }) {
         />
       </FormControl>
 
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Create a password</FormLabel>
         <InputGroup>
           <Input
@@ -118,6 +118,7 @@ function SignupForm({ setUser }) {
             placeholder="must be 8 characters"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            minLength='8'
           />
           <InputRightElement>
             <Button onClick={handleTogglePasswordVisibility}>
@@ -127,7 +128,7 @@ function SignupForm({ setUser }) {
         </InputGroup>
       </FormControl>
 
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Confirm password</FormLabel>
         <InputGroup>
           <Input
@@ -135,6 +136,7 @@ function SignupForm({ setUser }) {
             placeholder="repeat password"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
+            minLength='8'
           />
           <InputRightElement>
             <Button onClick={handleToggleConfirmPasswordVisibility}>
