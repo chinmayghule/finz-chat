@@ -1,15 +1,16 @@
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, Container, Divider, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text, useBreakpointValue } from "@chakra-ui/react";
-import CustomChakraLink from "../components/CustomChakraLink";
-import { useContext, useEffect, useState } from "react";
-import { signInWithGoogle } from "../utility/signInWithGoogle";
+import { Container } from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
 import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../contexts/UserContext";
-import { signInWithPassword } from "../utility/signInWithPassword";
-import CustomGoogleIcon from "../components/CustomGoogleIcon";
+
+import LoginTitle from "../components/Login/LoginTitle";
+import LoginForm from "../components/Login/LoginForm";
+import LoginHint from "../components/Login/LoginHint";
+import LoginOtherOptions from "../components/Login/LoginOtherOptions";
+
 
 function Login() {
 
@@ -68,218 +69,11 @@ function Login() {
     >
       <LoginTitle />
       <LoginForm setUser={setUser} />
-      <LoginLoginHint />
+      <LoginHint />
       <LoginOtherOptions />
     </Container>
   );
 }
-
-// local components.
-function LoginTitle() {
-  return (
-    <Text
-      fontSize='1.875rem'
-      fontWeight='700'
-    >
-      Welcome Back 👋
-    </Text>
-  );
-}
-
-function LoginForm({ setUser }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-
-
-  const handleTogglePasswordVisibility = (e) => {
-    setShowPassword(prevVisibilityState => !prevVisibilityState);
-  };
-
-  const handleLoginFormSubmit = (e) => {
-    e.preventDefault();
-
-    signInWithPassword({ email, password, setUser });
-  };
-
-  return (
-    <Box
-      as='form'
-      onSubmit={handleLoginFormSubmit}
-      display='flex'
-      flexDirection='column'
-      gap='1rem'
-      marginBlockStart='2rem'
-    >
-      <FormControl isRequired>
-        <FormLabel fontSize='0.875rem'>Email address</FormLabel>
-        <Input
-          type='email'
-          placeholder='Your email'
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-      </FormControl>
-
-      <FormControl isRequired>
-        <FormLabel fontSize='0.875rem'>Password</FormLabel>
-        <InputGroup>
-          <Input
-            type={(showPassword) ? 'text' : 'password'}
-            placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            minLength='8'
-          />
-          <InputRightElement>
-            <Button onClick={handleTogglePasswordVisibility}>
-              {(showPassword) ? <ViewOffIcon /> : <ViewIcon />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
-
-      <Flex
-        flexDirection='row'
-        justifyContent='space-between'
-      >
-        <RememberMe
-          rememberMe={rememberMe}
-          setRememberMe={setRememberMe}
-        />
-        <ForgotPassword />
-      </Flex>
-
-      <Button
-        type="submit"
-        marginBlockStart='1rem'
-      >
-        Login
-      </Button>
-    </Box>
-  );
-}
-
-function LoginOtherOptions() {
-  return (
-    <Box marginBlockStart='2rem'>
-      <LoginDivider />
-      <LoginOtherOptionButtonContainer />
-    </Box>
-
-  );
-}
-
-function LoginLoginHint() {
-  return (
-    <Text
-      textAlign='center'
-      marginBlockStart='1rem'
-      fontSize='0.875rem'
-    >
-      Don't have an account? <CustomChakraLink link='/signup' linkContent='Sign up' />
-    </Text>
-  );
-}
-
-function LoginDivider() {
-  return (
-    <Flex
-      alignItems='center'
-      justifyContent='space-between'
-      gap='0rem'
-    >
-      <Divider
-        w='100%'
-        border='1px solid black'
-        flex='1'
-      />
-      <Text
-        flex='auto'
-        w='min-content'
-        textAlign='center'
-        fontSize='0.875rem'
-      >
-        or continue with
-      </Text>
-      <Divider
-        w='100%'
-        border='1px solid black'
-        flex='1'
-      />
-    </Flex>
-  );
-}
-
-function LoginOtherOptionButtonContainer() {
-
-  const isMediumBreakpoint =
-    useBreakpointValue({ base: false, md: true });
-
-  if (!isMediumBreakpoint) {
-    return (
-      <Flex
-        flexDirection='row'
-        justifyContent='center'
-        gap='2rem'
-        marginBlockStart='1rem'
-      >
-        <Button
-          onClick={signInWithGoogle}
-          p='2rem'
-        >
-          <CustomGoogleIcon />
-        </Button>
-        <Button p='2rem'>
-          <CustomGoogleIcon />
-        </Button>
-      </Flex>
-    );
-  }
-
-  return (
-    <Flex
-      flexDirection='column'
-      gap='1rem'
-      marginBlockStart='1rem'
-    >
-      <Button
-        onClick={signInWithGoogle}
-        leftIcon={<CustomGoogleIcon />}
-      >
-        Continue with Google
-      </Button>
-      <Button leftIcon={<CustomGoogleIcon />}>
-        Continue with Microsoft
-      </Button>
-    </Flex>
-  );
-}
-
-function RememberMe({ rememberMe, setRememberMe }) {
-  return (
-    <Checkbox
-      alignItems='center'
-      isChecked={rememberMe}
-      onChange={e => setRememberMe(e.target.checked)}
-    >
-      <Text fontSize='0.875rem'>Remember Me</Text>
-    </Checkbox>
-  );
-}
-
-function ForgotPassword() {
-  return (
-    <CustomChakraLink
-      link='#'
-      linkContent={
-        <Text fontSize='0.875rem'>Forgot Password?</Text>
-      }
-    />
-  );
-}
-
 
 
 export default Login;

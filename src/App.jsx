@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 // components.
-import Splash from "./components/Splash";
+import Splash from "./pages/Splash";
 
 // pages.
 import Signup from "./pages/Signup";
