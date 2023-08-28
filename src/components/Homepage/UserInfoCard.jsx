@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import UserIcon from "./UserIcon";
 import BasicUserInfo from "./BasicUserInfo";
 import MoreOptions from "./MoreOptions";
+import UserIcon from "../shared/UserIcon";
 
 function UserInfoCard() {
   return (

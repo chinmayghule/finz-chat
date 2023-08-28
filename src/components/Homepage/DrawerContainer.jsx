@@ -21,7 +21,7 @@ import UserInfoCard from "./UserInfoCard";
 import ClearChatBtn from "./ClearChatBtn";
 
 
-function DrawerContainer({ isOpen, onClose }) {
+function DrawerContainer({ isOpen, onClose, setActiveChatId }) {
 
   return (
     <Drawer
@@ -71,16 +71,32 @@ function DrawerContainer({ isOpen, onClose }) {
           overflowY='scroll'
           display='flex'
           flexDirection='column'
+          gap='0.5rem'
         >
-          <ChatDrawerInfoCard
-            text="What are my spendings..."
-          />
-          <ChatDrawerInfoCard
-            text="What are my spendings..."
-          />
-          <ChatDrawerInfoCard
-            text="What are my spendings..."
-          />
+          <Button
+            onClick={() => setActiveChatId('demo')}
+            variant='ghost'
+          >
+            <ChatDrawerInfoCard
+              text="What are my spendings..."
+            />
+          </Button>
+          <Button
+            onClick={() => setActiveChatId('demo')}
+            variant='ghost'
+          >
+            <ChatDrawerInfoCard
+              text="What are my spendings..."
+            />
+          </Button>
+          <Button
+            onClick={() => setActiveChatId('demo')}
+            variant='ghost'
+          >
+            <ChatDrawerInfoCard
+              text="What are my spendings..."
+            />
+          </Button>
 
           <Spacer />
 

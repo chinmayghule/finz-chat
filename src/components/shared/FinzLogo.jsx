@@ -1,4 +1,4 @@
-function FinzLogo() {
+function FinzLogo({ scale = 1, position = '' }) {
 
   const finzLogoStyle = {
     display: 'grid',
@@ -8,7 +8,9 @@ function FinzLogo() {
     aspectRatio: '1 / 1',
     border: '2px solid black',
     borderRadius: '50%',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    transform: `scale(${scale})`,
+    position: position
   };
 
   return (

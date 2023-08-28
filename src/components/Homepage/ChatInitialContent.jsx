@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import FinzLogo from "./FinzLogo";
 import InitialChatHeadingContainer from "./InitialChatHeadingContainer";
 import InitialChatPromptsContainer from "./InitialChatPromptsContainer";
+import FinzLogo from "../shared/FinzLogo";
 
 function ChatInitialContent() {
   return (

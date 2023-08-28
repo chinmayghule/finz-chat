@@ -1,6 +1,6 @@
 import { Container, useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
@@ -10,6 +10,7 @@ import DrawerOpenButton from "../components/Homepage/DrawerOpenButton";
 import ChatInitialContent from "../components/Homepage/ChatInitialContent";
 import ChatInput from "../components/Homepage/ChatInput";
 import DrawerContainer from "../components/Homepage/DrawerContainer";
+import ActiveChat from "../components/Homepage/ActiveChat";
 
 
 function Homepage() {
@@ -19,6 +20,8 @@ function Homepage() {
 
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+
+  const [activeChatId, setActiveChatId] = useState(null);
 
 
   // effects.
@@ -45,13 +48,15 @@ function Homepage() {
       >
         <DrawerOpenButton onOpen={onOpen} />
 
-        <ChatInitialContent />
+        {(!activeChatId) ? <ChatInitialContent /> : <ActiveChat /> }
+
         <ChatInput />
 
 
         <DrawerContainer
           isOpen={isOpen}
           onClose={onClose}
+          setActiveChatId={setActiveChatId}
         />
       </Container>
     </>

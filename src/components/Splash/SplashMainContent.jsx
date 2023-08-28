@@ -10,7 +10,7 @@ function SplashMainContent() {
       alignItems='center'
       textAlign='center'
       h='100%'
-      fontSize='4rem'
+      fontSize={{ base: '2.5rem', md: '3rem', lg: '4rem' }}
       fontWeight='590'
     >
       What will you discover today
