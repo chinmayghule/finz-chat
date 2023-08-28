@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import FinzChatResponseCard from "./FinzChatResponseCard";
 import UserPromptCard from "./UserPromptCard";
+import mockData from "../../../db";
 
 function ActiveChat() {
 
@@ -14,8 +15,8 @@ function ActiveChat() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('.././db.json');
-        const data = await response.json();
+        const response = mockData;
+        const data = JSON.parse(response);
 
         setChat(data.chat);
 

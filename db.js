@@ -1,4 +1,4 @@
-{
+const dataRaw = {
   "chat": [
     {
       "id": 1,
@@ -25,4 +25,9 @@
       "text": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus quo doloremque ea maiores! Eaque nisi a veritatis obcaecati quidem magni illo voluptatibus eius totam blanditiis necessitatibus laudantium, libero perferendis veniam maxime!"
     }
   ]
-}
+};
+
+const mockData = JSON.stringify(dataRaw);
+
+export default mockData;
+
