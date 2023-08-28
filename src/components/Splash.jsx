@@ -33,7 +33,8 @@ function Splash() {
 
       <GridItem
         as='main'
-        colSpan='3'
+        colStart='2'
+        colEnd='4'
         alignSelf='stretch'
         minH='60dvh'
       >
@@ -167,6 +168,7 @@ function SplashSideContent() {
       justifyContent='center'
       alignItems='center'
       h='100%'
+      p='2rem'
     >
       <Box
         display='flex'
