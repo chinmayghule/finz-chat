@@ -2,27 +2,24 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
-// components.
-import Splash from "./pages/Splash";
+import { UserContext } from "./contexts/UserContext.js";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebaseConfig";
 
 // pages.
+import Splash from "./pages/Splash";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Homepage from "./pages/Homepage";
-import { UserContext } from "./contexts/UserContext.js";
-import Cookies from "js-cookie";
-import { useState } from "react";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 
 function App() {
 
-  const [user, setUser] = useState(() => {
-    const user = Cookies.get('user');
+  const [user, setUser] = useState(null);
 
-    return (user) ? user : null;
-  });
-  
   const router = createBrowserRouter([
     {
       path: '/',
@@ -35,11 +32,30 @@ function App() {
     {
       path: '/login',
       element: <Login />
-    }, {
+    },
+    {
       path: '/homepage',
       element: <Homepage />
     },
+    {
+      path: '/forgot-password',
+      element: <ForgotPassword />
+    }
   ]);
+
+
+  // effects.
+
+  // global effect for `user` state.
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+
+  }, []);
+
 
   return (
     <ChakraProvider>

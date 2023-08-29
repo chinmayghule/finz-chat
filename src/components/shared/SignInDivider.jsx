@@ -1,6 +1,6 @@
 import { Divider, Flex, Text } from "@chakra-ui/react";
 
-function LoginDivider() {
+function SignInDivider() {
   return (
     <Flex
       alignItems='center'
@@ -29,4 +29,4 @@ function LoginDivider() {
   );
 }
 
-export default LoginDivider;
+export default SignInDivider;

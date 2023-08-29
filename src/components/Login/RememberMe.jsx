@@ -6,6 +6,11 @@ function RememberMe({ rememberMe, setRememberMe }) {
       alignItems='center'
       isChecked={rememberMe}
       onChange={e => setRememberMe(e.target.checked)}
+      onKeyDown={(e) => {
+        if(e.key === ' ') {
+          e.preventDefault
+        }
+      }}
     >
       <Text fontSize='0.875rem'>Remember Me</Text>
     </Checkbox>

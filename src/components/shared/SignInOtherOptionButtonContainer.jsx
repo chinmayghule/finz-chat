@@ -1,8 +1,11 @@
 import { Button, Flex, useBreakpointValue } from "@chakra-ui/react";
-import CustomGoogleIcon from "../shared/CustomGoogleIcon";
 import { signInWithGoogle } from "../../utility/signInWithGoogle";
+import { signInWithTwitter } from "../../utility/signInWithTwitter";
+import CustomGoogleIcon from "./CustomGoogleIcon";
+import CustomTwitterIcon from "./CustomTwitterIcon";
 
-function SignupOtherOptionButtonContainer() {
+
+function SignInOtherOptionButtonContainer() {
 
   const isMediumBreakpoint =
     useBreakpointValue({ base: false, md: true });
@@ -21,8 +24,11 @@ function SignupOtherOptionButtonContainer() {
         >
           <CustomGoogleIcon />
         </Button>
-        <Button p='2rem'>
-          <CustomGoogleIcon />
+        <Button
+          onClick={signInWithTwitter}
+          p='2rem'
+        >
+          <CustomTwitterIcon />
         </Button>
       </Flex>
     );
@@ -34,12 +40,20 @@ function SignupOtherOptionButtonContainer() {
       gap='1rem'
       marginBlockStart='1rem'
     >
-      <Button onClick={signInWithGoogle}>
+      <Button
+        onClick={signInWithGoogle}
+        leftIcon={<CustomGoogleIcon />}
+      >
         Continue with Google
       </Button>
-      <Button>Continue with Microsoft</Button>
+      <Button
+        onClick={signInWithTwitter}
+        leftIcon={<CustomTwitterIcon />}
+      >
+        Continue with Twitter
+      </Button>
     </Flex>
   );
 }
 
-export default SignupOtherOptionButtonContainer;
+export default SignInOtherOptionButtonContainer;

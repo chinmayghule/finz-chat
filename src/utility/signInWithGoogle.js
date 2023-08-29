@@ -4,14 +4,14 @@ import { auth } from "../firebaseConfig";
 async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
 
-  console.log('function working...');
+  // alert('signInWithGoogle working...');
   
   try {
-    console.log('inside try block...');
-    const result = await signInWithRedirect(auth, provider);
+    await signInWithRedirect(auth, provider);
 
   } catch(err) {
     console.log(err);
+    alert(err);
   }
 }
 

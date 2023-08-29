@@ -2,10 +2,8 @@ import { Container, useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebaseConfig";
-import Cookies from "js-cookie";
 
+// components.
 import DrawerOpenButton from "../components/Homepage/DrawerOpenButton";
 import ChatInitialContent from "../components/Homepage/ChatInitialContent";
 import ChatInput from "../components/Homepage/ChatInput";
@@ -28,14 +26,11 @@ function Homepage() {
 
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
       if (!user) {
-        Cookies.remove('user');
         navigate('/login');
       }
-    });
 
-  }, []);
+  }, [user]);
 
 
   return (

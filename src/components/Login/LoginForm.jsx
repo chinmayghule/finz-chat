@@ -12,7 +12,8 @@ import { signInWithPassword } from "../../utility/signInWithPassword";
 import RememberMe from "./RememberMe";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import ForgotPassword from "./ForgotPassword";
+import ForgotPasswordLink from "./ForgotPasswordLink";
+import { browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 
 
 function LoginForm({ setUser }) {
@@ -21,15 +22,23 @@ function LoginForm({ setUser }) {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
+  const persistence =
+    (rememberMe) ? browserLocalPersistence : browserSessionPersistence;
+
 
   const handleTogglePasswordVisibility = (e) => {
     setShowPassword(prevVisibilityState => !prevVisibilityState);
   };
 
   const handleLoginFormSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault();    
 
-    signInWithPassword({ email, password, setUser });
+    signInWithPassword({
+      email,
+      password,
+      setUser,
+      persistence
+    });
   };
 
   return (
@@ -77,7 +86,7 @@ function LoginForm({ setUser }) {
           rememberMe={rememberMe}
           setRememberMe={setRememberMe}
         />
-        <ForgotPassword />
+        <ForgotPasswordLink />
       </Flex>
 
       <Button

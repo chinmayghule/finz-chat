@@ -1,15 +1,15 @@
 import { Container } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
+import { getRedirectResult } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { UserContext } from "../contexts/UserContext";
 
+// components.
 import LoginTitle from "../components/Login/LoginTitle";
 import LoginForm from "../components/Login/LoginForm";
 import LoginHint from "../components/Login/LoginHint";
-import LoginOtherOptions from "../components/Login/LoginOtherOptions";
+import SignInOtherOptions from "../components/shared/SignInOtherOptions";
 
 
 function Login() {
@@ -21,17 +21,11 @@ function Login() {
 
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-
-      if (!user) {
-        Cookies.remove('user');
-      } else {
+      if (user) {
         navigate('/homepage');
       }
-    });
 
-  }, []);
+  }, [user]);
 
   // check redirected result after trying to log in.
   useEffect(() => {
@@ -40,9 +34,6 @@ function Login() {
         const result = await getRedirectResult(auth);
 
         if (result) {
-          console.log(result);
-          setUser(result.user);
-          Cookies.set('user', JSON.stringify(result.user));
           navigate('/homepage');
         }
       } catch (err) {
@@ -66,11 +57,12 @@ function Login() {
         base: '100vw',          // mobile screens
         sm: 'max(300px, 50vw)'  // beyond mobile screens
       }}
+      paddingBlock='1rem'
     >
       <LoginTitle />
       <LoginForm setUser={setUser} />
       <LoginHint />
-      <LoginOtherOptions />
+      <SignInOtherOptions />
     </Container>
   );
 }

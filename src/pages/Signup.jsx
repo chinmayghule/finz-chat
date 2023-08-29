@@ -1,15 +1,13 @@
 import { Container } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebaseConfig";
 import { UserContext } from "../contexts/UserContext";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+// components.
 import SignupTitle from "../components/Signup/SignupTitle";
 import SignupForm from "../components/Signup/SignupForm";
 import SignupLoginHint from "../components/Signup/SignupLoginHint";
-import SignupOtherOptions from "../components/Signup/SignupOtherOptions";
+import SignupOtherOptions from "../components/shared/SignInOtherOptions";
 
 
 function Signup() {
@@ -19,17 +17,11 @@ function Signup() {
 
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-
-      if (!user) {
-        Cookies.remove('user');
-      } else {
+      if (user) {
         navigate('/homepage');
       }
-    });
 
-  }, []);
+  }, [user]);
 
 
   return (
@@ -43,6 +35,7 @@ function Signup() {
         base: '100vw',          // mobile screens
         sm: 'max(300px, 50vw)'  // beyond mobile screens
       }}
+      paddingBlock='1rem'
     >
       <SignupTitle />
       <SignupForm setUser={setUser} />
