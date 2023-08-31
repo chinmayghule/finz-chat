@@ -9,29 +9,39 @@ import ChatInitialContent from "../components/Homepage/ChatInitialContent";
 import ChatInput from "../components/Homepage/ChatInput";
 import DrawerContainer from "../components/Homepage/DrawerContainer";
 import ActiveChat from "../components/Homepage/ActiveChat";
+import LoadingGeneral from "../components/shared/LoadingGeneral";
 
 
 function Homepage() {
 
   // chakra-ui states for drawer.
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const navigate = useNavigate();
-  const { user } = useContext(UserContext);
-
   const [activeChatId, setActiveChatId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const { user, isAuthStateLoading } = useContext(UserContext);
 
 
   // effects.
 
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
-      if (!user) {
+      if (!isAuthStateLoading && !user) {
         navigate('/login');
+      }
+
+      if(!isAuthStateLoading && user) {
+        setIsLoading(false);
       }
 
   }, [user]);
 
+
+  // return statements.
+  if(isLoading) {
+    return <LoadingGeneral />;
+  }
 
   return (
     <>

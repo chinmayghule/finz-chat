@@ -6,6 +6,7 @@ async function signInWithPassword({
   email,
   password,
   setUser,
+  setError,
   persistence
 }) {
 
@@ -18,7 +19,10 @@ async function signInWithPassword({
     setUser(userCredential.user);
 
   } catch (err) {
-    console.log(err);
+    console.log(err?.code);
+    setError(err?.code);
+
+    setTimeout(() => setError(null), 10000);
   }
 }
 

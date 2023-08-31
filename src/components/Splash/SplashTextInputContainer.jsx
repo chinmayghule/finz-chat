@@ -1,18 +1,21 @@
-import { ArrowRightIcon } from "@chakra-ui/icons";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import CustomSquareCaretRight from "../shared/CustomSquareCaretRight";
 
 function SplashTextInputContainer() {
 
   return (
     <InputGroup
-      w='max(300px, 50vw)'
+      w={{
+        base: 'calc(100vw - 2rem)',
+        sm: 'max(300px, 50vw)'
+      }}
       m='auto'
     >
       <Input
         type='text'
       />
       <InputRightElement pointerEvents='none'>
-        <ArrowRightIcon />
+        <CustomSquareCaretRight />
       </InputRightElement>
     </InputGroup>
   );

@@ -1,5 +1,5 @@
 import { Container } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -8,22 +8,33 @@ import SignupTitle from "../components/Signup/SignupTitle";
 import SignupForm from "../components/Signup/SignupForm";
 import SignupLoginHint from "../components/Signup/SignupLoginHint";
 import SignupOtherOptions from "../components/shared/SignInOtherOptions";
+import LoadingGeneral from "../components/shared/LoadingGeneral";
 
 
 function Signup() {
 
-  const { user, setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user, setUser, isAuthStateLoading } = useContext(UserContext);
   const navigate = useNavigate();
 
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
-      if (user) {
-        navigate('/homepage');
-      }
+    if (!isAuthStateLoading && user) {
+      navigate('/homepage');
+    }
+
+    if(!isAuthStateLoading && !user) {
+      setIsLoading(false);
+    }
 
   }, [user]);
 
 
+  // return statements.
+  if(isLoading) {
+    return <LoadingGeneral />;
+  }
+  
   return (
     <Container
       as='main'

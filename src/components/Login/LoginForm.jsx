@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Flex,
@@ -21,6 +23,7 @@ function LoginForm({ setUser }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(null);
 
   const persistence =
     (rememberMe) ? browserLocalPersistence : browserSessionPersistence;
@@ -37,10 +40,32 @@ function LoginForm({ setUser }) {
       email,
       password,
       setUser,
+      setError,
       persistence
     });
   };
 
+  const errorAlert = (error) => {
+    if(error === null) return null;
+
+    let errorMessage;
+
+    if(error.code === 'auth/user-not-found') {
+      errorMessage = 'Email or password is incorrect.';
+    } else {
+      errorMessage = 'Something went wrong. Please try again.';
+    }
+
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        {errorMessage}
+      </Alert>
+    );
+  };
+  
+  
+  // return statements.
   return (
     <Box
       as='form'
@@ -50,6 +75,9 @@ function LoginForm({ setUser }) {
       gap='1rem'
       marginBlockStart='2rem'
     >
+      
+      {errorAlert(error)}
+
       <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Email address</FormLabel>
         <Input

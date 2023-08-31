@@ -15,14 +15,37 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
-import { EditIcon, SearchIcon, StarIcon } from "@chakra-ui/icons";
+import { EditIcon, SearchIcon } from "@chakra-ui/icons";
 import ChatDrawerInfoCard from "./ChatDrawerInfoCard";
 import UserInfoCard from "./UserInfoCard";
 import ClearChatBtn from "./ClearChatBtn";
+import CustomHeartIcon from "../shared/CustomHeartIcon";
+import CustomHeartSolidIcon from "../shared/CustomHeartSolidIcon";
+import { useState } from "react";
 
 
 function DrawerContainer({ isOpen, onClose, setActiveChatId }) {
 
+  const [
+    isHeartIconClicked,
+    setIsHeartIconClicked
+  ]  = useState(false);
+  
+  
+  // functions.
+  const handleHeartIconClicked = () => {
+    setIsHeartIconClicked(prevState => !prevState);
+  };
+  
+  const heartIcon = () => {
+    if(isHeartIconClicked) {
+      return <CustomHeartSolidIcon />
+    } else {
+      return <CustomHeartIcon />
+    }
+  }
+
+  // return statements.
   return (
     <Drawer
       placement="left"
@@ -43,8 +66,16 @@ function DrawerContainer({ isOpen, onClose, setActiveChatId }) {
               w='100%'
             >
               <Text>FINZ</Text>
+
               <Spacer />
-              <StarIcon />
+
+              <Button
+                variant='ghost'
+                onClick={handleHeartIconClicked}
+              >
+                {heartIcon()}
+              </Button>
+
               <DrawerCloseButton position='static' />
             </Flex>
 

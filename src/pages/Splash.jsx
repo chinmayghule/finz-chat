@@ -1,15 +1,17 @@
-import { Grid, GridItem, useMediaQuery } from "@chakra-ui/react";
+import { Grid, GridItem, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import SplashNavbar from "../components/Splash/SplashNavbar";
 import SplashMainContent from "../components/Splash/SplashMainContent";
 import SplashSideContent from "../components/Splash/SplashSideContent";
 import SplashTextInputContainer from "../components/Splash/SplashTextInputContainer";
 import SplashInstructionTextContent from "../components/Splash/SplashInstructionTextContent";
 import SplashNavbarShort from "../components/Splash/SplashNavbarShort";
+import SplashDrawerContainer from "../components/Splash/SplashDrawerContainer";
 
 
 function Splash() {
 
   const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px)');
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
 
   if (isSmallerThan1024) {
@@ -25,7 +27,7 @@ function Splash() {
           as='nav'
           colSpan='4'
         >
-          <SplashNavbarShort />
+          <SplashNavbarShort onOpen={onOpen} />
         </GridItem>
 
         <GridItem
@@ -51,6 +53,11 @@ function Splash() {
         >
           <SplashInstructionTextContent />
         </GridItem>
+
+        <SplashDrawerContainer
+          isOpen={isOpen}
+          onClose={onClose}
+        />
 
       </Grid>
     );

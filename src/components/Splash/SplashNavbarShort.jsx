@@ -1,18 +1,20 @@
 import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
-import SplashLogo from "../Splash/SplashLogo";
 import CustomChakraLink from "../shared/CustomChakraLink";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
-function SplashNavbarShort() {
+function SplashNavbarShort({ onOpen }) {
 
   return (
     <Flex
       gap='3rem'
       direction='row'
       alignItems='center'
-      paddingBlock='1rem'
-      paddingInline='2rem'
+      paddingBlock={{ base: '0rem', md: '1rem' }}
+      paddingInline={{ base: '0rem', sm: '1rem', md: '2rem' }}
     >
-      <SplashLogo />
+      <Button onClick={onOpen}>
+        <HamburgerIcon />
+      </Button>
 
       <Spacer />
 

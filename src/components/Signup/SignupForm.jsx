@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   FormControl,
@@ -22,6 +24,7 @@ function SignupForm({ setUser }) {
     showConfirmPassword,
     setShowConfirmPassword
   ] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleTogglePasswordVisibility = (e) => {
     setShowPassword(prevVisibilityState => !prevVisibilityState);
@@ -39,9 +42,22 @@ function SignupForm({ setUser }) {
       return;
     }
 
-    signUpWithPassword({ email, password, setUser });
+    signUpWithPassword({ email, password, setUser, setError });
   };
 
+
+  const errorAlert = (error) => {
+    if (error === null) return null;
+    
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        Something went wrong. Please try again.
+      </Alert>
+    );
+  };
+
+  // return statements.
   return (
     <Box
       as='form'
@@ -51,6 +67,9 @@ function SignupForm({ setUser }) {
       gap='1rem'
       marginBlockStart='2rem'
     >
+      
+      {errorAlert(error)}
+
       <FormControl isRequired>
         <FormLabel fontSize='0.875rem'>Email</FormLabel>
         <Input

@@ -1,5 +1,5 @@
 import { Container } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getRedirectResult } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -10,20 +10,26 @@ import LoginTitle from "../components/Login/LoginTitle";
 import LoginForm from "../components/Login/LoginForm";
 import LoginHint from "../components/Login/LoginHint";
 import SignInOtherOptions from "../components/shared/SignInOtherOptions";
+import LoadingGeneral from "../components/shared/LoadingGeneral";
 
 
 function Login() {
 
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user, setUser, isAuthStateLoading } = useContext(UserContext);
 
   // effects.
 
-  // set observer on user state using onAuthStateChanged.
+  // set observer on user state.
   useEffect(() => {
-      if (user) {
-        navigate('/homepage');
-      }
+    if (!isAuthStateLoading && user) {
+      navigate('/homepage');
+    }
+
+    if(!isAuthStateLoading && !user) {
+      setIsLoading(false);
+    }
 
   }, [user]);
 
@@ -45,6 +51,11 @@ function Login() {
 
   }, []);
 
+
+  // return statements.
+  if (isLoading) {
+    return <LoadingGeneral />;
+  }
 
   return (
     <Container

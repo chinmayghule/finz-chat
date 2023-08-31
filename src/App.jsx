@@ -3,22 +3,28 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import { UserContext } from "./contexts/UserContext.js";
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 
 // pages.
-import Splash from "./pages/Splash";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Homepage from "./pages/Homepage";
-import ForgotPassword from "./pages/ForgotPassword";
+import LoadingGeneral from "./components/shared/LoadingGeneral.jsx";
 
+
+const Splash = lazy(() => import("./pages/Splash"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Login = lazy(() => import("./pages/Login"));
+const Homepage = lazy(() => import("./pages/Homepage"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 
 
 function App() {
 
   const [user, setUser] = useState(null);
+  const [
+    isAuthStateLoading,
+    setIsAuthStateLoading
+  ] = useState(true);
 
   const router = createBrowserRouter([
     {
@@ -27,19 +33,35 @@ function App() {
     },
     {
       path: '/signup',
-      element: <Signup />
+      element: (
+        <Suspense fallback={<LoadingGeneral />}>
+          <Signup />
+        </Suspense>
+      )
     },
     {
       path: '/login',
-      element: <Login />
+      element: (
+        <Suspense fallback={<LoadingGeneral />}>
+          <Login />
+        </Suspense>
+      )
     },
     {
       path: '/homepage',
-      element: <Homepage />
+      element: (
+        <Suspense fallback={<LoadingGeneral />}>
+          <Homepage />
+        </Suspense>
+      )
     },
     {
       path: '/forgot-password',
-      element: <ForgotPassword />
+      element: (
+        <Suspense fallback={<LoadingGeneral />}>
+          <ForgotPassword />
+        </Suspense>
+      )
     }
   ]);
 
@@ -50,6 +72,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setIsAuthStateLoading(false);      
     });
 
     return () => unsubscribe();
@@ -59,7 +82,9 @@ function App() {
 
   return (
     <ChakraProvider>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider
+        value={{ user, setUser, isAuthStateLoading }}
+      >
         <RouterProvider router={router} />
       </UserContext.Provider>
     </ChakraProvider>

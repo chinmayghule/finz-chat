@@ -4,8 +4,6 @@ import { auth } from "../firebaseConfig";
 async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
 
-  // alert('signInWithGoogle working...');
-  
   try {
     await signInWithRedirect(auth, provider);
 

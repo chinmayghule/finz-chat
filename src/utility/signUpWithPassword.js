@@ -1,7 +1,13 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
-async function signUpWithPassword({ email, password, setUser }) {
+async function signUpWithPassword({
+  email,
+  password,
+  setUser,
+  setError
+}) {
+
   try {
     const userCredential =
       await createUserWithEmailAndPassword(auth, email, password);
@@ -9,7 +15,9 @@ async function signUpWithPassword({ email, password, setUser }) {
     setUser(userCredential.user);
 
   } catch (err) {
-    console.log(err);
+    setError(err);
+
+    setTimeout(() => setError(null), 10000);
   }
 }
 
