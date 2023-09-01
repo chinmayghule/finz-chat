@@ -13,7 +13,8 @@ import {
   InputLeftElement,
   Spacer,
   Text,
-  VStack
+  VStack,
+  useMediaQuery
 } from "@chakra-ui/react";
 import { EditIcon, SearchIcon } from "@chakra-ui/icons";
 import ChatDrawerInfoCard from "./ChatDrawerInfoCard";
@@ -24,35 +25,42 @@ import CustomHeartSolidIcon from "../shared/CustomHeartSolidIcon";
 import { useState } from "react";
 
 
-function DrawerContainer({ isOpen, onClose, setActiveChatId }) {
+function DrawerContainer({
+  isOpen,
+  onClose,
+  activeChatId,
+  setActiveChatId
+}) {
 
   const [
     isHeartIconClicked,
     setIsHeartIconClicked
-  ]  = useState(false);
-  
-  
+  ] = useState(false);
+
+  const [isSmallerThan1280] = useMediaQuery('(max-width: 1280px)');
+
+
   // functions.
   const handleHeartIconClicked = () => {
     setIsHeartIconClicked(prevState => !prevState);
   };
-  
+
   const heartIcon = () => {
-    if(isHeartIconClicked) {
-      return <CustomHeartSolidIcon />
+    if (isHeartIconClicked) {
+      return <CustomHeartSolidIcon />;
     } else {
-      return <CustomHeartIcon />
+      return <CustomHeartIcon />;
     }
-  }
+  };
 
   // return statements.
   return (
     <Drawer
       placement="left"
-      isOpen={isOpen}
+      isOpen={(isSmallerThan1280) ? isOpen : true}
       onClose={onClose}
     >
-      <DrawerOverlay />
+      {(isSmallerThan1280) ? <DrawerOverlay /> : null}
 
       <DrawerContent>
 
@@ -76,7 +84,12 @@ function DrawerContainer({ isOpen, onClose, setActiveChatId }) {
                 {heartIcon()}
               </Button>
 
-              <DrawerCloseButton position='static' />
+              {(isSmallerThan1280) ? (
+                <DrawerCloseButton position='static' />
+              ) : (
+                null
+              )}
+
             </Flex>
 
             <Flex gap='0.5rem'>

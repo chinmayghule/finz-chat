@@ -31,7 +31,7 @@ function Login() {
       setIsLoading(false);
     }
 
-  }, [user]);
+  }, [user, isAuthStateLoading]);
 
   // check redirected result after trying to log in.
   useEffect(() => {

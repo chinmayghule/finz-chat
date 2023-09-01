@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import FinzChatResponseCard from "./FinzChatResponseCard";
 import UserPromptCard from "./UserPromptCard";
 import mockData from "../../../db";
+import ActiveChatHeading from "./ActiveChatHeading";
 
-function ActiveChat() {
+function ActiveChat({ onOpen, activeChatId }) {
 
   const [chat, setChat] = useState([]);
 
@@ -35,18 +36,25 @@ function ActiveChat() {
       justifyContent='start'
       alignItems='center'
       minH='100dvh'
+      maxH='100dvh'
       w={{
-        base: '320px - 2rem',
-        md: 'max(600px, 50vw)',
-        lg: '75vw'
+        base: 'max(320px - 2rem, 100vw - 2rem)'
       }}
       maxW='600px'
+
       m='auto'
-      paddingBlockStart='2rem'
       paddingBlockEnd='5rem'
+      paddingInline='0'
       gap='1rem'
       overflowY='scroll'
+      position='relative'
+      className="hide-scrollbar"
+
+      gridColumnStart='2'
+      gridColumnEnd='4'
     >
+      <ActiveChatHeading onOpen={onOpen} activeChatId={activeChatId} />
+
       {chat.map((chatObj, index) => {
         if (chatObj.from === 'finz-chat') {
           return (
@@ -65,7 +73,6 @@ function ActiveChat() {
         }
       })}
     </Flex>
-
   );
 }
 

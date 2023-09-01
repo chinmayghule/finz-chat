@@ -3,16 +3,16 @@ import { Box, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useState } from "react";
 
 function ChatInput() {
-  
+
   const [chatInput, setChatInput] = useState('');
-  
+
   const handleChatInputSubmit = (e) => {
     e.preventDefault();
 
     alert(chatInput);
     setChatInput('');
   };
-  
+
   return (
     <Box
       as='form'
@@ -22,15 +22,19 @@ function ChatInput() {
       bottom={{ base: '1rem', md: '2rem' }}
     >
       <InputGroup
-        w='max(320px - 2rem, 75vw)'
-        maxW='600px'
         m='auto'
+        w={{
+          base: 'max(320px - 2rem, 100vw - 2rem)'
+        }}
+        maxW='600px'
       >
         <Input
           type='text'
           variant='filled'
           placeholder="Message..."
-          w='max(320px - 2rem, 75vw)'
+          w={{
+            base: 'max(320px - 2rem, 100vw - 2rem)'
+          }}
           maxW='600px'
           m='auto'
           value={chatInput}

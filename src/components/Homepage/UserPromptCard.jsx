@@ -1,9 +1,20 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Box, Flex, Grid, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import UserIcon from "../shared/UserIcon";
+import HomepageChatCard from "../shared/HomepageChatCard";
 
 function UserPromptCard({ promptText }) {
 
+  return (
+    <HomepageChatCard
+      chatOwnerIcon={<UserIcon />}
+      chatContent={<Text>{promptText}</Text>}
+      chatOperationIcon={<EditIcon justifySelf='end' />}
+    />
+  );
+
+
+  /*
   return (
     <Grid
       templateColumns='1fr 8.5fr 0.5fr'
@@ -17,6 +28,7 @@ function UserPromptCard({ promptText }) {
       <EditIcon justifySelf='end' />
     </Grid>
   );
+  */
 }
 
 export default UserPromptCard;

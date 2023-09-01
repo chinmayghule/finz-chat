@@ -4,6 +4,7 @@ import MoreOptions from "./MoreOptions";
 import UserIcon from "../shared/UserIcon";
 
 function UserInfoCard() {
+
   return (
     <Flex
       w='100%'

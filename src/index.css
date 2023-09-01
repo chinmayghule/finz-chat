@@ -49,3 +49,17 @@ body {
     transform: scale(1.75);
   }
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0rem;
+  height: 0rem;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.hide-scrollbar {
+  scrollbar-width: 0;
+  scrollbar-color: transparent transparent;
+}

@@ -27,7 +27,7 @@ function Signup() {
       setIsLoading(false);
     }
 
-  }, [user]);
+  }, [user, isAuthStateLoading]);
 
 
   // return statements.

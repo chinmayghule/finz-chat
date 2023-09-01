@@ -1,4 +1,4 @@
-import { Container, useDisclosure } from "@chakra-ui/react";
+import { Container, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
@@ -10,6 +10,7 @@ import ChatInput from "../components/Homepage/ChatInput";
 import DrawerContainer from "../components/Homepage/DrawerContainer";
 import ActiveChat from "../components/Homepage/ActiveChat";
 import LoadingGeneral from "../components/shared/LoadingGeneral";
+import ActiveChatSideContainer from "../components/Homepage/ActiveChatSideContainer";
 
 
 function Homepage() {
@@ -19,6 +20,7 @@ function Homepage() {
   const [activeChatId, setActiveChatId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [isSmallerThan1280] = useMediaQuery('(max-width: 1280px)');
 
   const { user, isAuthStateLoading } = useContext(UserContext);
 
@@ -27,19 +29,19 @@ function Homepage() {
 
   // set observer on user state using onAuthStateChanged.
   useEffect(() => {
-      if (!isAuthStateLoading && !user) {
-        navigate('/login');
-      }
+    if (!isAuthStateLoading && !user) {
+      navigate('/login');
+    }
 
-      if(!isAuthStateLoading && user) {
-        setIsLoading(false);
-      }
+    if (!isAuthStateLoading && user) {
+      setIsLoading(false);
+    }
 
   }, [user]);
 
 
   // return statements.
-  if(isLoading) {
+  if (isLoading) {
     return <LoadingGeneral />;
   }
 
@@ -50,10 +52,28 @@ function Homepage() {
         w='100vw'
         minW='100vw'
         minH='100dvh'
-      >
-        <DrawerOpenButton onOpen={onOpen} />
 
-        {(!activeChatId) ? <ChatInitialContent /> : <ActiveChat /> }
+        display='grid'
+        gridTemplateColumns='repeat(4, 1fr)'
+      >
+
+        {(!activeChatId) ? (
+          <>
+            <ChatInitialContent />
+            <DrawerOpenButton onOpen={onOpen} />
+          </>
+        ) : (
+          <ActiveChat
+            onOpen={onOpen}
+            activeChatId={activeChatId}
+          />
+        )}
+
+        {(!activeChatId || isSmallerThan1280) ? (
+          null
+        ) : (
+          <ActiveChatSideContainer />
+        )}
 
         <ChatInput />
 
@@ -61,6 +81,7 @@ function Homepage() {
         <DrawerContainer
           isOpen={isOpen}
           onClose={onClose}
+          activeChatId={activeChatId}
           setActiveChatId={setActiveChatId}
         />
       </Container>

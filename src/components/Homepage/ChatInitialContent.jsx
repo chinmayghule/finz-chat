@@ -15,6 +15,8 @@ function ChatInitialContent() {
       paddingBlockStart='2rem'
       paddingBlockEnd='5rem'
       gap='1rem'
+      gridColumnStart='2'
+      gridColumnEnd='4'
     >
       <FinzLogo />
       <InitialChatHeadingContainer />
