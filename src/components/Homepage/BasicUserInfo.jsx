@@ -14,15 +14,22 @@ function BasicUserInfo() {
     overflow: 'hidden',
     textOverflow: 'ellipsis'
   };
-  
+
   return (
     <Flex
       flexDirection='column'
       flexGrow='auto'
       justifyContent='center'
       w='100%'
+      maxW='100%'
+      overflowX='hidden'
     >
-      <Text style={noOverflowStyle}>{username}</Text>
+      <Text
+        style={noOverflowStyle}
+        isTruncated
+      >
+        {username}
+      </Text>
       <Text style={noOverflowStyle}>{userEmail}</Text>
     </Flex>
   );
