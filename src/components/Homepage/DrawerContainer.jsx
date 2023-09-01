@@ -57,7 +57,7 @@ function DrawerContainer({
   return (
     <Drawer
       placement="left"
-      isOpen={(isSmallerThan1280) ? isOpen : true}
+      isOpen={(isSmallerThan1280 || !activeChatId) ? isOpen : true}
       onClose={onClose}
     >
       {(isSmallerThan1280) ? <DrawerOverlay /> : null}
