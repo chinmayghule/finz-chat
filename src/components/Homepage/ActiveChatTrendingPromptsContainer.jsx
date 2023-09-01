@@ -42,7 +42,7 @@ function ActiveChatTrendingPromptsContainer() {
         gap='0.5rem'
         flexWrap='wrap'
       >
-        <CustomPill pillText='Lorem ipsum' />
+        <CustomPill pillText='Lorem ipsum' isPillSelected={true} />
         <CustomPill pillText='Lorem' />
         <CustomPill pillText='Lorepsum' />
         <CustomPill pillText='Lorepsum' />

@@ -9,8 +9,7 @@ function ActiveChatSideContainer() {
     <VStack
       w='100%'
       paddingInline='0.5rem'
-
-      border='1px solid black'
+      borderInlineStart='2px solid rgba(255, 255, 255, 0.36)'
     >
       <ActiveChatInsightsContainer />
       <ActiveChatExplainContainer />

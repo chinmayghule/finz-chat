@@ -1,4 +1,4 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Button, Menu, MenuButton, MenuItem, MenuList, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import VerticalEllipsisIcon from "./VerticalEllipsisIcon";
@@ -10,7 +10,10 @@ function MoreOptions() {
 
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  
+  const { colorMode, toggleColorMode } = useColorMode();
+
+
+  // functions.
   const handleSignOut = () => {
     googleSignOutUser(setUser);
     navigate('/login');
@@ -26,7 +29,9 @@ function MoreOptions() {
         <VerticalEllipsisIcon />
       </MenuButton>
       <MenuList>
-        <MenuItem>Dark Mode</MenuItem>
+        <MenuItem onClick={() => toggleColorMode()}>
+          {(colorMode === 'light') ? 'Dark Mode' : 'Light Mode'}
+        </MenuItem>
         <MenuItem onClick={handleSignOut}>Log out</MenuItem>
       </MenuList>
     </Menu>

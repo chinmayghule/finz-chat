@@ -8,7 +8,7 @@ function ActiveChatInsightsContainer() {
   return (
     <Card
       variant='unstyled'
-      gap='0.5rem'
+      gap='1rem'
       w='100%'
       paddingBlock='1rem'
       paddingInline='0.5rem'

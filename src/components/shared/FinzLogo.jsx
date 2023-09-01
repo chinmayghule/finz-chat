@@ -73,7 +73,7 @@ function FinzLogo({ scale = 1 }) {
 
           transform: `scale(${scale})`
         }}
-        src="/public/finz-logo-text.png"
+        src="/finz-logo-text.png"
       />
     </div>
   );

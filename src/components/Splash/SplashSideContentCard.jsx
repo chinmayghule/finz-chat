@@ -7,7 +7,8 @@ function SplashSideContentCard({ textContent }) {
       p='1rem'
       textAlign='center'
       alignSelf='stretch'
-      border='1px solid black'
+      backgroundColor='#2D3748'
+      borderRadius='0.5rem'
     >
       {textContent}
     </Box>
