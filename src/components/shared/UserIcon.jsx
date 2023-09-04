@@ -5,7 +5,7 @@ import { UserContext } from "../../contexts/UserContext";
 function UserIcon() {
 
   const { user } = useContext(UserContext);
-  const photoUrl = user.photoURL;
+  const photoUrl = user?.photoURL;
 
   const iconStyle = {
     height: '3rem',
@@ -21,12 +21,16 @@ function UserIcon() {
         src={photoUrl}
         alt={`Photo of user ${user?.displayName}`}
         boxSize='3rem'
+        data-testid='user-icon'
       />
     );
 
   } else {
     return (
-      <div style={iconStyle}></div>
+      <div
+        style={iconStyle}
+        data-testid='user-icon'
+      ></div>
     );
   }
 

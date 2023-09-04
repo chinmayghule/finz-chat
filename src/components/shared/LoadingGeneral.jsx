@@ -19,6 +19,7 @@ function LoadingGeneral() {
       justifyContent='center'
       placeItems='center'
       bg={bgColor}
+      data-testid='loading-general'
     >
       <Box animation='finzLogoLoadingAnimation 3s infinite linear'>
         <FinzLogo />

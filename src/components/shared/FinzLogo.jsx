@@ -1,19 +1,21 @@
 function FinzLogo({ scale = 1 }) {
 
   return (
-    <div style={{
-      display: 'grid',
-      justifyContent: 'center',
-      placeItems: 'center',
-      position: 'relative',
-      transform: `scale(${scale})`,
-      
-      width: 'min-content',
-      height: 'min-content',
-      maxWidth: 'min-content',
-      maxHeight: 'min-content',
-      justifySelf: 'center',
-    }}>
+    <div
+      data-testid='finz-logo'
+      style={{
+        display: 'grid',
+        justifyContent: 'center',
+        placeItems: 'center',
+        position: 'relative',
+        transform: `scale(${scale})`,
+
+        width: 'min-content',
+        height: 'min-content',
+        maxWidth: 'min-content',
+        maxHeight: 'min-content',
+        justifySelf: 'center',
+      }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="87"

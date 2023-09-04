@@ -25,6 +25,7 @@ function CustomPill({ pillText, isPillSelected = false }) {
       paddingBlock='0.25rem'
       paddingInline='0.75rem'
       borderRadius='0.5rem'
+      data-testid='custom-pill'
     >
       {pillText}
     </Text>

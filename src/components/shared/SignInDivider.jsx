@@ -6,6 +6,7 @@ function SignInDivider() {
       alignItems='center'
       justifyContent='space-between'
       gap='0rem'
+      data-testid='signin-divider'
     >
       <Divider
         w='100%'

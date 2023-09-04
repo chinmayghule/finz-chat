@@ -5,7 +5,10 @@ import SignInDivider from "../shared/SignInDivider";
 
 function SignInOtherOptions() {
   return (
-    <Box marginBlockStart='2rem'>
+    <Box
+      marginBlockStart='2rem'
+      data-testid='signin-other-options'
+    >
       <SignInDivider />
       <SignInOtherOptionButtonContainer />
     </Box>

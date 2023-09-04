@@ -1,6 +1,6 @@
-import { Grid, Text } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 
-function UserPromptCard({
+function HomepageChatCard({
   chatOwnerIcon,
   chatContent,
   chatOperationIcon
@@ -13,6 +13,7 @@ function UserPromptCard({
       p='1rem'
       border="1px solid black"
       w='100%'
+      data-testid='homepage-chat-card'
     >
       {chatOwnerIcon}
       {chatContent}
@@ -21,4 +22,4 @@ function UserPromptCard({
   );
 }
 
-export default UserPromptCard;
+export default HomepageChatCard;

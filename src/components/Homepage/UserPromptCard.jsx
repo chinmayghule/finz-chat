@@ -12,23 +12,6 @@ function UserPromptCard({ promptText }) {
       chatOperationIcon={<EditIcon justifySelf='end' />}
     />
   );
-
-
-  /*
-  return (
-    <Grid
-      templateColumns='1fr 8.5fr 0.5fr'
-      gap="1rem"
-      p='1rem'
-      border="1px solid black"
-      w='100%'
-    >
-      <UserIcon />
-      <Text>{promptText}</Text>
-      <EditIcon justifySelf='end' />
-    </Grid>
-  );
-  */
 }
 
 export default UserPromptCard;

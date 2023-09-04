@@ -17,6 +17,7 @@ function SignInOtherOptionButtonContainer() {
         justifyContent='center'
         gap='2rem'
         marginBlockStart='1rem'
+        data-testid='signin-other-option-btn-container'
       >
         <Button
           onClick={signInWithGoogle}
@@ -39,6 +40,7 @@ function SignInOtherOptionButtonContainer() {
       flexDirection='column'
       gap='1rem'
       marginBlockStart='1rem'
+      data-testid='signin-other-option-btn-container'
     >
       <Button
         onClick={signInWithGoogle}
